@@ -17,6 +17,7 @@ func main() {
 	}
 
 	cmd := os.Args[1]
+	
 	switch cmd {
 	case "setup":
 		latestVersion := utils.LastVersion(user, repo)
