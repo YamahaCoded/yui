@@ -7,12 +7,13 @@ import (
 )
 
 func main() {
+
 	user := "niXman"
 	repo := "mingw-builds-binaries"
 	substringAsset := "win32-seh-msvcrt"
 
 	if len(os.Args) < 2 {
-		fmt.Println("Usage: yui setup")
+		fmt.Println("Usage: yui <command>")
 		os.Exit(1)
 	}
 
@@ -32,7 +33,9 @@ func main() {
 		} else {
 			utils.DownloadAsset(user, repo, substringAsset)
 		}
-
+	
+	case "help":
+		utils.HelpMessage()
 	default:
 		fmt.Println("Unknown command:", cmd)
 		os.Exit(1)
