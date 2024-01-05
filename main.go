@@ -12,7 +12,7 @@ func main() {
 	substringAsset := "win32-seh-msvcrt"
 
 	if len(os.Args) < 2 {
-		fmt.Println("Usage: yui setup -user=<username> -repo=<repository> -substring=<substring> -destiny=<directory> [-confirm]")
+		fmt.Println("Usage: yui setup")
 		os.Exit(1)
 	}
 
