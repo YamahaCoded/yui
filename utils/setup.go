@@ -7,6 +7,8 @@ import (
 	"os"
 	"path"
 	"strings"
+
+	"github.com/schollz/progressbar/v3"
 )
 
 func LastVersion(user, repo string) string {
@@ -70,13 +72,18 @@ func DownloadAsset(user, repo, substringAsset string) {
 		}
 		defer file.Close()
 
-		_, err = io.Copy(file, response.Body)
+		bar := progressbar.DefaultBytes(
+			response.ContentLength,
+			"Downloading",
+		)
+
+		_, err = io.Copy(io.MultiWriter(file, bar), response.Body)
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
 
-		fmt.Printf("Downloaded %s to: %s\n", finalAsset, finalAsset)
+		fmt.Printf("\nDownloaded %s to: %s\n", finalAsset, finalAsset)
 	} else {
 		fmt.Printf("No assets with \"%s\".\n", substringAsset)
 	}

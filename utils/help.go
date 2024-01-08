@@ -28,5 +28,5 @@ Examples:
 `
 
 func HelpMessage(){
-	fmt.Printf("%s", helpString)
+	fmt.Printf(helpString)
 }

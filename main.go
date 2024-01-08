@@ -40,4 +40,5 @@ func main() {
 		fmt.Println("Unknown command:", cmd)
 		os.Exit(1)
 	}
+	
 }
