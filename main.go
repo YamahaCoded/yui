@@ -24,13 +24,16 @@ func main() {
 		latestVersion := utils.LastVersion(user, repo)
 		fmt.Println("Latest Version:", latestVersion)
 
-		fmt.Print("Do you want to proceed with the download? (y/n): ")
+		fmt.Print("Do you want to proceed with the installation? (y/n): ")
 		var response string
 		fmt.Scanln(&response)
 		if response != "y" {
-			fmt.Println("Download canceled.")
+			fmt.Println("Installation canceled.")
 			os.Exit(0)
 		} else {
+			utils.CreateDir("Yui")
+			utils.CreateDir("Yui\\Files")
+			utils.CreateDir("Yui\\Compiler")
 			utils.DownloadAsset(user, repo, substringAsset)
 		}
 	
@@ -40,5 +43,5 @@ func main() {
 		fmt.Println("Unknown command:", cmd)
 		os.Exit(1)
 	}
-	
+
 }

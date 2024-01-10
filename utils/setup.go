@@ -29,6 +29,11 @@ func LastVersion(user, repo string) string {
 	return result["tag_name"].(string)
 }
 
+func assetExists(filePath string) bool {
+	_, err := os.Stat(filePath)
+	return !os.IsNotExist(err)
+}
+
 func DownloadAsset(user, repo, substringAsset string) {
 	latestVersion := LastVersion(user, repo)
 	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/releases/tags/%s", user, repo, latestVersion)
@@ -58,6 +63,12 @@ func DownloadAsset(user, repo, substringAsset string) {
 	}
 
 	if assetURL != "" {
+		if assetExists(finalAsset) {
+			fmt.Printf("%s already downloaded, skipping download...\n", finalAsset)
+			Extract(finalAsset, "C:\\Yui\\Compiler")
+			return
+		}
+
 		response, err := http.Get(assetURL)
 		if err != nil {
 			fmt.Println(err)
@@ -84,7 +95,9 @@ func DownloadAsset(user, repo, substringAsset string) {
 		}
 
 		fmt.Printf("\nDownloaded %s to: %s\n", finalAsset, finalAsset)
+		Extract(finalAsset, "C:\\Yui\\Compiler")
 	} else {
 		fmt.Printf("No assets with \"%s\".\n", substringAsset)
 	}
+
 }
