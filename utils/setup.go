@@ -11,6 +11,14 @@ import (
 	"github.com/schollz/progressbar/v3"
 )
 
+func Tasks(finalAsset string) {
+	Extract(finalAsset, "C:\\Yui\\Compiler")
+	CheckPath("C:\\Yui")
+	CheckPath("C:\\Yui\\Compiler\\mingw64\\bin")
+	CopyFile("./yui.exe", "C:\\Yui\\yui.exe")
+	CopyFile("C:\\Yui\\Compiler\\mingw64\\bin\\mingw32-make.exe", "C:\\Yui\\Compiler\\mingw64\\bin\\make.exe")
+}
+
 func LastVersion(user, repo string) string {
 	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/releases/latest", user, repo)
 	res, err := http.Get(url)
@@ -65,7 +73,7 @@ func DownloadAsset(user, repo, substringAsset string) {
 	if assetURL != "" {
 		if assetExists(finalAsset) {
 			fmt.Printf("%s already downloaded, skipping download...\n", finalAsset)
-			Extract(finalAsset, "C:\\Yui\\Compiler")
+			Tasks(finalAsset)
 			return
 		}
 
@@ -95,7 +103,7 @@ func DownloadAsset(user, repo, substringAsset string) {
 		}
 
 		fmt.Printf("\nDownloaded %s to: %s\n", finalAsset, finalAsset)
-		Extract(finalAsset, "C:\\Yui\\Compiler")
+		Tasks(finalAsset)
 	} else {
 		fmt.Printf("No assets with \"%s\".\n", substringAsset)
 	}

@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 )
@@ -23,5 +24,24 @@ func CreateDir(directoryName string) {
 		fmt.Println("Something went wrong:", err)
 	} else {
 		fmt.Printf("'%s' already exists\n", directoryName)
+	}
+}
+
+func CopyFile(src, dest string) {
+	sourceFile, err := os.Open(src)
+	if err != nil {
+		fmt.Printf("Error due to: %s", err)
+	}
+	defer sourceFile.Close()
+
+	destinationFile, err := os.Create(dest)
+	if err != nil {
+		fmt.Printf("Error due to: %s\n", err)
+	}
+	defer destinationFile.Close()
+
+	_, err = io.Copy(destinationFile, sourceFile)
+	if err != nil {
+		fmt.Printf("Error due to: %s\n", err)
 	}
 }
