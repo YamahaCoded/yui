@@ -9,7 +9,7 @@ import (
 func Extract(filename, path string) {
 	fmt.Println("Extracting file...")
 
-	file, err := unarr.NewArchive("./x86_64-13.2.0-release-win32-seh-msvcrt-rt_v11-rev0.7z")
+	file, err := unarr.NewArchive("./" + filename)
 	if err != nil {
 		panic(err)
 	}
