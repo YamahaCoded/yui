@@ -45,3 +45,15 @@ func CopyFile(src, dest string) {
 		fmt.Printf("Error due to: %s\n", err)
 	}
 }
+
+func DeleteDir(directoryName string) {
+	path := filepath.Join("C:\\", directoryName)
+
+	err := os.RemoveAll(path)
+	if err != nil {
+		fmt.Printf("Error trying to delete directory '%s'\n", directoryName)
+		return
+	}
+
+	fmt.Printf("'%s' successfully deleted\n", directoryName)
+}

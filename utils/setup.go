@@ -11,12 +11,41 @@ import (
 	"github.com/schollz/progressbar/v3"
 )
 
-func Tasks(finalAsset string) {
+func SetupTasks(finalAsset string) {
 	Extract(finalAsset, "C:\\Yui\\Compiler")
 	CheckPath("C:\\Yui")
 	CheckPath("C:\\Yui\\Compiler\\mingw64\\bin")
 	CopyFile("./yui.exe", "C:\\Yui\\yui.exe")
 	CopyFile("C:\\Yui\\Compiler\\mingw64\\bin\\mingw32-make.exe", "C:\\Yui\\Compiler\\mingw64\\bin\\make.exe")
+}
+
+func GetAssetDetails(user, repo, substringAsset string) (string, string, error) {
+	latestVersion := LastVersion(user, repo)
+	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/releases/tags/%s", user, repo, latestVersion)
+
+	res, err := http.Get(url)
+	if err != nil {
+		return "", "", err
+	}
+	defer res.Body.Close()
+
+	var release map[string]interface{}
+	if err := decodeJSON(res.Body, &release); err != nil {
+		return "", "", err
+	}
+
+	var assetURL, finalAsset string
+	assets := release["assets"].([]interface{})
+	for _, a := range assets {
+		asset := a.(map[string]interface{})
+		if strings.Contains(asset["name"].(string), substringAsset) {
+			assetURL = asset["browser_download_url"].(string)
+			finalAsset = path.Join("./", asset["name"].(string))
+			break
+		}
+	}
+
+	return assetURL, finalAsset, nil
 }
 
 func LastVersion(user, repo string) string {
@@ -43,37 +72,16 @@ func assetExists(filePath string) bool {
 }
 
 func DownloadAsset(user, repo, substringAsset string) {
-	latestVersion := LastVersion(user, repo)
-	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/releases/tags/%s", user, repo, latestVersion)
-
-	res, err := http.Get(url)
-	if err != nil {
+	assetURL, finalAsset, err := GetAssetDetails(user, repo, substringAsset)
+	if err != nil{
 		fmt.Println(err)
 		return
-	}
-	defer res.Body.Close()
-
-	var release map[string]interface{}
-	if err := decodeJSON(res.Body, &release); err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	var assetURL, finalAsset string
-	assets := release["assets"].([]interface{})
-	for _, a := range assets {
-		asset := a.(map[string]interface{})
-		if strings.Contains(asset["name"].(string), substringAsset) {
-			assetURL = asset["browser_download_url"].(string)
-			finalAsset = path.Join("./", asset["name"].(string))
-			break
-		}
 	}
 
 	if assetURL != "" {
 		if assetExists(finalAsset) {
 			fmt.Printf("%s already downloaded, skipping download...\n", finalAsset)
-			Tasks(finalAsset)
+			SetupTasks(finalAsset)
 			return
 		}
 
@@ -103,9 +111,27 @@ func DownloadAsset(user, repo, substringAsset string) {
 		}
 
 		fmt.Printf("\nDownloaded %s to: %s\n", finalAsset, finalAsset)
-		Tasks(finalAsset)
+		SetupTasks(finalAsset)
 	} else {
 		fmt.Printf("No assets with \"%s\".\n", substringAsset)
 	}
 
+}
+
+func Setup(user, repo, substringAsset string){
+	latestVersion := LastVersion(user, repo)
+	fmt.Println("Latest Version:", latestVersion)
+
+	fmt.Print("Do you want to proceed with the installation? (y/n): ")
+	var response string
+	fmt.Scanln(&response)
+	if response != "y" {
+		fmt.Println("Installation canceled.")
+		os.Exit(0)
+	} else {
+		CreateDir("Yui")
+		CreateDir("Yui\\Files")
+		CreateDir("Yui\\Compiler")
+		DownloadAsset(user, repo, substringAsset)
+	}
 }

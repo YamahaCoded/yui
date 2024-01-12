@@ -16,5 +16,5 @@ func Extract(filename, path string) {
 
 	file.Extract(path)
 	defer file.Close()
-	
+
 }
