@@ -9,11 +9,11 @@ func MingwUpdate(user, repo, substringAsset string) {
 		return
 	}
 	
-	DeleteDir("Yui")
+	DeleteDir("C:\\Yui")
 	
-	CreateDir("Yui")
-	CreateDir("Yui\\Files")
-	CreateDir("Yui\\Compiler")
+	CreateDir("C:\\Yui")
+	CreateDir("C:\\Yui\\Files")
+	CreateDir("C:\\Yui\\Compiler")
 
 	DownloadAsset(user, repo, substringAsset)
 	Extract(finalAsset, "C:\\Yui\\Compiler")

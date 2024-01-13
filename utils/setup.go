@@ -129,9 +129,9 @@ func Setup(user, repo, substringAsset string){
 		fmt.Println("Installation canceled.")
 		os.Exit(0)
 	} else {
-		CreateDir("Yui")
-		CreateDir("Yui\\Files")
-		CreateDir("Yui\\Compiler")
+		CreateDir("C:\\Yui")
+		CreateDir("C:\\Yui\\Files")
+		CreateDir("C:\\Yui\\Compiler")
 		DownloadAsset(user, repo, substringAsset)
 	}
 }

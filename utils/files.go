@@ -10,7 +10,7 @@ import (
 func CreateDir(directoryName string) {
 	fmt.Printf("Creating directory %s...\n", directoryName)
 
-	path := filepath.Join("C:\\", directoryName)
+	path := filepath.Join(directoryName)
 
 	_, err := os.Stat(path)
 	if os.IsNotExist(err) {
@@ -47,7 +47,7 @@ func CopyFile(src, dest string) {
 }
 
 func DeleteDir(directoryName string) {
-	path := filepath.Join("C:\\", directoryName)
+	path := filepath.Join(directoryName)
 
 	err := os.RemoveAll(path)
 	if err != nil {

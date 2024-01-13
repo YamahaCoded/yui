@@ -18,7 +18,9 @@ func main() {
 	}
 
 	cmd := os.Args[1]
-	
+	cmdArg := os.Args[2]
+	name := os.Args[3]
+
 	switch cmd {
 	case "setup":
 		utils.Setup(user, repo, substringAsset)
@@ -28,6 +30,12 @@ func main() {
 
 	case "update":
 		utils.MingwUpdate(user, repo, substringAsset)
+	
+	case "new":
+		switch cmdArg {
+		case "project":
+			utils.CreateProject(name)
+		}
 
 	default:
 		fmt.Println("Unknown command:", cmd)
