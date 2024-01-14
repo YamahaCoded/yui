@@ -12,11 +12,27 @@ func CreateProject(name string) {
 	}
 
 	path := filepath.Join(docs, "Documents\\Projects\\")
-	finalPath := filepath.Join(path, name)
+	
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		CreateDir(path)
+	}
 
+	finalPath := filepath.Join(path, name)
 	CreateDir(finalPath)
 }
 
-func DeleteProject() {
+func DeleteProject(name string) {
+	docs, err := os.UserHomeDir()
+	if err != nil {
+		return
+	}
 
+	path := filepath.Join(docs, "Documents\\Projects\\")
+	
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		return
+	}
+
+	finalPath := filepath.Join(path, name)
+	DeleteDir(finalPath)
 }

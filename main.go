@@ -31,10 +31,16 @@ func main() {
 	case "update":
 		utils.MingwUpdate(user, repo, substringAsset)
 	
-	case "new":
+	case "create":
 		switch cmdArg {
 		case "project":
 			utils.CreateProject(name)
+		}
+
+	case "delete":
+		switch cmdArg{
+		case "project":
+			utils.DeleteProject(name)
 		}
 
 	default:
