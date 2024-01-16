@@ -5,5 +5,5 @@ import (
 )
 
 func PrintVersion() {
-	fmt.Println("yui version yui-alpha-1")
+	fmt.Println("yui version yui-beta-1")
 }

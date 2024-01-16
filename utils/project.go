@@ -19,7 +19,7 @@ func CreateProject(name, model string) {
 
 	finalPath := filepath.Join(path, name)
 	CreateDir(finalPath)
-	AddModel(model, finalPath)
+	UseModel(model, finalPath)
 }
 
 func DeleteProject(name string) {

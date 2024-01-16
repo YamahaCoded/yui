@@ -6,16 +6,20 @@ import (
 	"yamaha/yui/utils"
 )
 
+func checkArgs(n int) {
+	if len(os.Args) < n {
+		fmt.Println("Usage: yui <command> [arguments]\nTry using help for more information")
+		os.Exit(1)
+	}
+}
+
 func main() {
 
 	user := "niXman"
 	repo := "mingw-builds-binaries"
 	substringAsset := "win32-seh-msvcrt"
 
-	if len(os.Args) < 2 {
-		fmt.Println("Usage: yui <command>\nTry using help for more information")
-		os.Exit(1)
-	}
+	checkArgs(2)
 
 	cmd := os.Args[1]
 
@@ -31,25 +35,28 @@ func main() {
 		utils.MingwUpdate(user, repo, substringAsset)
 	
 	case "create":
+		checkArgs(2)
 		name := os.Args[2]
 		model := os.Args[3]
 		utils.CreateProject(name, model)
 	
 	case "delete":
+		checkArgs(2)
 		name := os.Args[2]
 		utils.DeleteProject(name)
 		
-	case "library":
+	case "model":
+		checkArgs(4)
 		extraArgs := os.Args[2]
 		switch extraArgs {
 		case "add":
 			name := os.Args[3]
 			url := os.Args[4]
-			utils.InsertData(name, url)
-			utils.DownloadModel(name)
+			utils.AddTasks(name, url)
 		case "remove":
+			checkArgs(3)
 			name := os.Args[3]
-			utils.RemoveData(name)
+			utils.DeleteTasks(name)
 		}
 
 	case "version":

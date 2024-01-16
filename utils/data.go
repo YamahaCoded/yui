@@ -82,27 +82,6 @@ func GetData(name string) (string, string) {
 	return retrievedURL, retrievedPath
 }
 
-func ModifyURL(name, newURL string) {
-	db, err := ConnectDB()
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
-
-	if !DataExists(db, name) {
-		fmt.Printf("No data found for %s\n", name)
-		return
-	}
-
-	_, err = db.Exec("UPDATE data SET url = ? WHERE name = ?", newURL, name)
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
-
-	fmt.Printf("URL modified for %s to %s\n", name, newURL)
-}
-
 func RemoveData(name string) {
 
 	path := "C:\\Yui\\Files\\" + name

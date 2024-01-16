@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 )
@@ -32,7 +33,35 @@ func DownloadModel(name string) error {
 	return nil
 }
 
-func AddModel(model, finalPath string) {
+func UseModel(model, finalPath string) {
 	_, file := GetData(model)
 	Extract(file, finalPath)
+}
+
+func AddTasks(name, url string) {
+	db, err := ConnectDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	if !DataExists(db, name){
+		InsertData(name, url)
+		DownloadModel(name)
+	} else {
+		fmt.Printf("'%s' already exists\n", name)
+	}
+
+}
+
+func DeleteTasks(name string) {
+	_, file := GetData(name)
+
+	if IsDirectory(file) {
+		RemoveData(name)
+		DeleteDir(file)
+	} else {
+		fmt.Println(file, IsDirectory(file))
+		fmt.Printf("%s not found\n", file)
+	}
 }
