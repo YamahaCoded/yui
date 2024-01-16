@@ -50,6 +50,9 @@ func main() {
 			utils.RemoveData(name)
 		}
 
+	case "version":
+		utils.PrintVersion()
+
 	default:
 		fmt.Println("Unknown command:", cmd)
 		os.Exit(1)

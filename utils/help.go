@@ -15,7 +15,7 @@ Commands:
 	library add [name] [url]     - Creates a library with a name and URL.
 	library remove [name]        - Deletes an existing library.
 	help                         - Displays this message.
-	version                      - Displays current version of yui and mingw.
+	version                      - Displays current version of yui.
 
 Examples:
 	yui setup
