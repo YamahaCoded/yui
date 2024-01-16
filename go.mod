@@ -4,6 +4,7 @@ go 1.21.0
 
 require (
 	github.com/gen2brain/go-unarr v0.2.0
+	github.com/mattn/go-sqlite3 v1.14.19
 	github.com/schollz/progressbar/v3 v3.14.1
 )
 

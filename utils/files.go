@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"path/filepath"
 )
@@ -56,4 +57,16 @@ func DeleteDir(directoryName string) {
 	}
 
 	fmt.Printf("'%s' successfully deleted\n", directoryName)
+}
+
+func IsDirectory(path string) bool {
+	info, err := os.Stat(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false
+		}
+		log.Fatal(err)
+	}
+
+	return info.IsDir()
 }
