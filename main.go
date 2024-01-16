@@ -32,7 +32,8 @@ func main() {
 	
 	case "create":
 		name := os.Args[2]
-		utils.CreateProject(name)
+		model := os.Args[3]
+		utils.CreateProject(name, model)
 	
 	case "delete":
 		name := os.Args[2]
@@ -45,6 +46,7 @@ func main() {
 			name := os.Args[3]
 			url := os.Args[4]
 			utils.InsertData(name, url)
+			utils.DownloadModel(name)
 		case "remove":
 			name := os.Args[3]
 			utils.RemoveData(name)

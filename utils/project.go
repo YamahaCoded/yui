@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 )
 
-func CreateProject(name string) {
+func CreateProject(name, model string) {
 	docs, err := os.UserHomeDir()
 	if err != nil {
 		return
@@ -19,6 +19,7 @@ func CreateProject(name string) {
 
 	finalPath := filepath.Join(path, name)
 	CreateDir(finalPath)
+	AddModel(model, finalPath)
 }
 
 func DeleteProject(name string) {

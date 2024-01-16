@@ -36,8 +36,7 @@ func ConnectDB() (*sql.DB, error) {
 
 func InsertData(name, url string) {
 
-	path := "C:\\Yui\\Files\\" + name
-	CreateDir(path)
+	path := "C:\\Yui\\Files\\" + name + ".7z"
 
 	db, err := ConnectDB()
 	if err != nil {
